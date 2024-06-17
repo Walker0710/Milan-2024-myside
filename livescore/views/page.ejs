@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../images/logo.png">
+    <title>Live Score</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="versus"><span id="name1">team1</span> VS <span id="name2">team2</span></div>
+        <div class="scoreboard">
+            <div class="set1">
+                <h1>SET 1</h1>
+                <span id="set1team1">0</span> and <span id="set1team2">0</span>
+            </div>
+            <div class="set2">
+                <h1>SET 2</h1>
+                <span id="set2team1">0</span> and <span id="set2team2">0</span>
+            </div>
+            <div class="set3">
+                <h1>SET 3</h1>
+                <span id="set3team1">0</span> and <span id="set3team2">0</span>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

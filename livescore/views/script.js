@@ -1,8 +1,9 @@
 // Connect to the Socket.io server
-const socket = io();
+import io from 'socket.io-client';
+const socket = io('http://localhost:5000');
 
 // Listen for 'scoreUpdate' events from the server
-socket.on('updatedScore', (score) => {
+socket.on('update', (update) => {
     document.getElementById('name1').textContent = update.team1;
     document.getElementById('name2').textContent = update.team2;
     document.getElementById('set1team1').textContent = update.score.team1.set1;

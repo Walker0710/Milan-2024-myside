@@ -1,15 +1,17 @@
 import express from "express";
 import axios from "axios"; 
 import http from "http";
+import cors from "cors";
 import { Server } from 'socket.io';
 import bodyParser from "body-parser";
 
 
 const app = express();
 const server = http.createServer(app);
+app.use(cors({ origin: "http://localhost:3000"}));
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: "http://localhost:3000",
         methods: ['GET', 'POST'],
     },
 });
@@ -23,26 +25,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(bodyParser.json());
 
-const updatedScore = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/`);
-        const update = response.data;
-        io.emit('update', update);
-    } catch (error) {
-        console.error('Error fetching live score:', error);
-    }
-};
+// const updatedScore = async (socket) => {
+//     try {
+//         const response = await axios.get(`${API_URL}/`);
+//         const update = response.data;
+//         socket.emit('update', update);
+//     } catch (error) {
+//         console.error('Error fetching live score:', error);
+//     }
+// };
 
-setInterval(updatedScore, 10000);
+// setInterval(updatedScore, 10000);
 
 // Handle client connections
 io.on('connection', (socket) => {
     console.log('New client connected');
+
+    socket.on('updates',(data)=>{
+        console.log('update request',data);
+        socket.broadcast.emit('updated',data);
+    });
     
     // Fetch and send current score to the newly connected client
-    updatedScore().then(() => {
-        //Send initial score update to the newly connected client
-    });
+    // updatedScore(socket).then(() => {
+
+    //     //Send initial score update to the newly connected client
+    // });
 
     // Handle client disconnect
     socket.on('disconnect', () => {
@@ -50,10 +58,10 @@ io.on('connection', (socket) => {
     });
 });
 
-app.get("/", (req, res) => {
-    res.render("page.ejs");
-});
+// app.get("/", (req, res) => {
+//     res.render("page.ejs");
+// });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Backend server is running on http://localhost:${port}`);
 });

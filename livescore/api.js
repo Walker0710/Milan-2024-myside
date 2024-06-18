@@ -36,7 +36,7 @@ let matches = [
             team1: {
                 set1: "0",
                 set2: "0",
-                set3: "0",
+                set3: "1",
             },
             team2: {
                 set1: "0",
